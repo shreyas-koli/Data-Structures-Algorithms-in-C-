@@ -19,52 +19,75 @@ string reverseString(string &s)
 
 bool normalPalindrome(string &s)
 {
-    int i = 0;
-    int j = s.length() - 1;
 
-    while (i < j)
+    string reversed = reverseString(s);
+
+    if (reversed == s)
     {
-        if (s[i] != s[j])
-            return false;
-
-        i++;
-        j--;
+        return true;
     }
-
-    return true;
+    else
+    {
+        return false;
+    }
 }
+
 bool validPalindrome(string s)
 {
+
+    int i = s.length() - 2;
+    int j = i + 1;
     string bkp = s;
 
     if (normalPalindrome(s))
+    {
         return true;
-
+    }
     string rm1 = s;
     rm1.erase(rm1.begin());
-
-    if (normalPalindrome(rm1))
+    if(normalPalindrome(rm1)){
         return true;
-
-    string rmL = s;
-    rmL.pop_back();
-
-    if (normalPalindrome(rmL))
-        return true;
-
-    int j = s.length() - 1;
-
-    while (j >= 0)
-    {
-        s.erase(j, 1);
-
-        if (normalPalindrome(s))
-            return true;
-
-        s = bkp;
-        j--;
     }
 
+    string rmL = s;
+    // rmL.erase(rm1.end()-1);
+    rmL.pop_back();
+    if(normalPalindrome(rmL)){
+        return true;
+    }
+
+    else
+    {
+
+        while (j >= 0)
+        {
+
+            if (i == 0)
+            {
+                i = s.length() - 1;
+            }
+
+            swap(s[i], s[j]);
+            char ch = s[j];
+            // s.pop_back();
+            if( j >=0 && j < s.length()){
+
+                s.erase(j,1);
+            }
+
+            if (normalPalindrome(s))
+            {
+                return true;
+            }
+            else
+            {
+                s = bkp;
+            }
+
+            i--;
+            j--;
+        }
+    }
     return false;
 }
 
@@ -87,7 +110,8 @@ int main()
     // cout << str << endl;
 
     string s = "eccer";
-    cout << validPalindrome(s);
+    cout<<validPalindrome(s);
+
 
     return 0;
 }
