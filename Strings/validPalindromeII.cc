@@ -32,63 +32,107 @@ bool normalPalindrome(string &s)
     }
 }
 
-bool validPalindrome(string s)
-{
+// bool validPalindrome(string s)
+// {
 
-    int i = s.length() - 2;
-    int j = i + 1;
-    string bkp = s;
+//     int i = s.length() - 2;
+//     int j = i + 1;
+//     string bkp = s;
 
-    if (normalPalindrome(s))
-    {
-        return true;
-    }
-    string rm1 = s;
-    rm1.erase(rm1.begin());
-    if(normalPalindrome(rm1)){
-        return true;
-    }
+//     if (normalPalindrome(s))
+//     {
+//         return true;
+//     }
+//     string rm1 = s;
+//     rm1.erase(rm1.begin());
+//     if(normalPalindrome(rm1)){
+//         return true;
+//     }
 
-    string rmL = s;
-    // rmL.erase(rm1.end()-1);
-    rmL.pop_back();
-    if(normalPalindrome(rmL)){
-        return true;
-    }
+//     string rmL = s;
+//     // rmL.erase(rm1.end()-1);
+//     rmL.pop_back();
+//     if(normalPalindrome(rmL)){
+//         return true;
+//     }
 
-    else
-    {
+//     else
+//     {
 
-        while (j >= 0)
-        {
+//         while (j >= 0)
+//         {
 
-            if (i == 0)
-            {
-                i = s.length() - 1;
-            }
+//             if (i == 0)
+//             {
+//                 i = s.length() - 1;
+//             }
 
-            swap(s[i], s[j]);
-            char ch = s[j];
-            // s.pop_back();
-            if( j >=0 && j < s.length()){
+//             swap(s[i], s[j]);
+//             char ch = s[j];
+//             // s.pop_back();
+//             if( j >=0 && j < s.length()){
 
-                s.erase(j,1);
-            }
+//                 s.erase(j,1);
+//             }
 
-            if (normalPalindrome(s))
-            {
-                return true;
-            }
-            else
-            {
-                s = bkp;
-            }
+//             if (normalPalindrome(s))
+//             {
+//                 return true;
+//             }
+//             else
+//             {
+//                 s = bkp;
+//             }
 
-            i--;
+//             i--;
+//             j--;
+//         }
+//     }
+//     return false;
+// }
+
+bool checkPalindrome(string s, int i, int j){
+
+
+    while( i <= j ){
+        if(s[i] == s[j] ){
+            i++;
             j--;
         }
+        else{
+            return false;
+        }
     }
-    return false;
+    return true;
+}
+
+bool validPalindrome(string s){
+
+    if(normalPalindrome(s)){
+        return true;
+    }
+
+    int i = 0;
+    int j = s.length() - 1;
+    
+    while ( i < j ){
+
+        if(s[i] == s[j])
+        {
+            i++;
+            j--;
+        }
+        else{
+            // j--;
+            bool ans1 = checkPalindrome(s, i, j-1);
+            bool ans2 = checkPalindrome(s, i+1, j);
+            bool ans = ans1 || ans2;
+            return ans;
+        }        
+
+    }
+    return true;
+
 }
 
 int main()
